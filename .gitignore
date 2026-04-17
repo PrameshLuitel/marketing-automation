@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+dist/
+build/
+.next/
+out/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific
+data/
+scratch/
+graphify-out/
+*.mp4
+*.mp3
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.log
+.agents/
+.qoder/

@@ -1,0 +1,51 @@
+name: Daily Marketing Pipeline
+
+on:
+  schedule:
+    # Runs daily at 2:00 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Trigger Pipeline
+        run: |
+          # Replace with your Render deployment URL
+          RENDER_URL="${{ secrets.RENDER_URL }}"
+          
+          if [ -z "$RENDER_URL" ]; then
+            echo "RENDER_URL secret not set, skipping"
+            exit 0
+          fi
+          
+          echo "Triggering pipeline at $RENDER_URL/api/pipeline/run"
+          
+          response=$(curl -s -o /dev/null -w "%{http_code}" \
+            -X POST "$RENDER_URL/api/pipeline/run" \
+            -H "Content-Type: application/json" \
+            --max-time 120)
+          
+          echo "Response: $response"
+          
+          if [ "$response" -ge 200 ] && [ "$response" -lt 300 ]; then
+            echo "✅ Pipeline triggered successfully"
+          else
+            echo "⚠️ Pipeline trigger returned HTTP $response"
+            # Don't fail — the server might be spinning up (cold start)
+            exit 0
+          fi
+
+      - name: Wait and Check Status
+        run: |
+          RENDER_URL="${{ secrets.RENDER_URL }}"
+          if [ -z "$RENDER_URL" ]; then exit 0; fi
+          
+          echo "Waiting 60s for pipeline to progress..."
+          sleep 60
+          
+          echo "Checking health..."
+          curl -s "$RENDER_URL/api/health" || echo "Server may still be processing"
