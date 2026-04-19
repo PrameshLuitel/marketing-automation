@@ -125,4 +125,20 @@ export const api = {
       method: 'PUT',
       body: JSON.stringify(data),
     }),
+
+  // Templates
+  getTemplates: (filters = {}) => {
+    const params = new URLSearchParams();
+    if (filters.type) params.append('type', filters.type);
+    if (filters.category) params.append('category', filters.category);
+    if (filters.limit) params.append('limit', filters.limit);
+    return request(`/templates?${params.toString()}`);
+  },
+  getPopularTemplates: (limit = 20) => request(`/templates/popular?limit=${limit}`),
+  getTemplate: (id) => request(`/templates/${id}`),
+  useTemplate: (id) => request(`/templates/${id}/use`, { method: 'POST' }),
+  getBackgrounds: (category = null) => {
+    const params = category ? `?category=${category}` : '';
+    return request(`/templates/backgrounds${params}`);
+  },
 };

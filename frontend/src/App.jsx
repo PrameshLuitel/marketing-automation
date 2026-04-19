@@ -8,6 +8,8 @@ import CampaignDetail from './pages/CampaignDetail';
 import Gallery from './pages/Gallery';
 import Logs from './pages/Logs';
 import Settings from './pages/Settings';
+import ImageStudio from './pages/ImageStudio';
+import VideoStudio from './pages/VideoStudio';
 
 export default function App() {
   return (
@@ -23,6 +25,8 @@ export default function App() {
             <Route path="/campaigns/:id" element={<CampaignDetail />} />
             <Route path="/images" element={<Gallery viewMode="image" />} />
             <Route path="/videos" element={<Gallery viewMode="video" />} />
+            <Route path="/studio/images" element={<ImageStudio />} />
+            <Route path="/studio/videos" element={<VideoStudio />} />
             <Route path="/logs" element={<Logs />} />
             <Route path="/settings" element={<Settings />} />
           </Routes>

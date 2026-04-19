@@ -157,6 +157,10 @@ app.add_middleware(
 if os.path.exists("./data/outputs"):
     app.mount("/outputs", StaticFiles(directory="./data/outputs"), name="outputs")
 
+# Register template API router
+from api.templates import router as templates_router
+app.include_router(templates_router, prefix="/api")
+
 
 # ── Pydantic Models ──────────────────────────────────────
 

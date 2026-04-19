@@ -1,7 +1,7 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard, TrendingUp, FileText, Palette, Video, ScrollText,
-  Settings, Zap, Search
+  Settings, Zap, Search, Image, Clapperboard
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { api } from '../utils/api';
@@ -10,8 +10,10 @@ const navItems = [
   { path: '/', label: 'Dashboard', icon: LayoutDashboard },
   { path: '/trends', label: 'Trends', icon: TrendingUp },
   { path: '/campaigns', label: 'Campaigns', icon: FileText, badgeKey: 'pending_campaigns' },
-  { path: '/images', label: 'Image Studio', icon: Palette },
-  { path: '/videos', label: 'Video Center', icon: Video },
+  { path: '/studio/images', label: 'Image Studio', icon: Image },
+  { path: '/studio/videos', label: 'Video Studio', icon: Clapperboard },
+  { path: '/images', label: 'Image Gallery', icon: Palette },
+  { path: '/videos', label: 'Video Gallery', icon: Video },
   { path: '/logs', label: 'Agent Logs', icon: ScrollText },
 ];
 

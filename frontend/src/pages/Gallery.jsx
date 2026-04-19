@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Image, Calendar, Play, Loader, Edit3, Video, X, ZoomIn, Download } from 'lucide-react';
 import { api } from '../utils/api';
@@ -6,6 +7,7 @@ import { SkeletonCard } from '../components/Skeleton';
 import PhotopeaEditor from '../components/PhotopeaEditor';
 
 export default function Gallery({ viewMode = 'image' }) {
+  const navigate = useNavigate();
   const [assets, setAssets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedAsset, setSelectedAsset] = useState(null);
@@ -237,6 +239,34 @@ function AssetCard({ asset, index, onClick, onComplete }) {
             </span>
             <span className="badge badge-approved" style={{ fontSize: '10px' }}>image</span>
           </div>
+          {/* Edit in Studio Button */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/studio/images?edit=${asset.id}`);
+            }}
+            style={{
+              width: '100%',
+              marginTop: '8px',
+              padding: '6px 12px',
+              borderRadius: '6px',
+              background: 'var(--bg-tertiary)',
+              color: 'var(--text-primary)',
+              border: '1px solid var(--border-glass)',
+              fontSize: '11px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '6px'
+            }}
+            onMouseOver={(e) => e.currentTarget.style.background = 'var(--accent-primary)'}
+            onMouseOut={(e) => e.currentTarget.style.background = 'var(--bg-tertiary)'}
+          >
+            <Edit3 size={12} />
+            Open in Studio
+          </button>
         </div>
       </motion.div>
     );

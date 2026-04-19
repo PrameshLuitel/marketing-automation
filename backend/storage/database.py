@@ -180,6 +180,25 @@ class CreativeAsset(Base):
     campaign: Mapped[Optional["Campaign"]] = relationship(back_populates="assets")
 
 
+class Template(Base):
+    """Design templates for images and videos."""
+
+    __tablename__ = "templates"
+
+    id: Mapped[str] = mapped_column(String(100), primary_key=True)
+    name: Mapped[str] = mapped_column(String(255))
+    type: Mapped[str] = mapped_column(String(20))  # 'image' or 'video'
+    category: Mapped[str] = mapped_column(String(50), index=True)  # twitter, instagram, linkedin, etc.
+    dimensions: Mapped[Optional[str]] = mapped_column(Text)  # JSON: {"width": 1080, "height": 1350}
+    preview_url: Mapped[Optional[str]] = mapped_column(String(500))
+    template_path: Mapped[Optional[str]] = mapped_column(String(500))
+    metadata_json: Mapped[Optional[str]] = mapped_column(Text)  # tags, colors, etc.
+    usage_count: Mapped[int] = mapped_column(Integer, default=0)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, server_default=func.now()
+    )
+
+
 class AgentLog(Base):
     """Execution logs for agent council runs."""
 
